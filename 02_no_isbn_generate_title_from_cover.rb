@@ -37,6 +37,7 @@ class GenerateTitleAndAuthor
 
     `pdfimages -f #{last_page_num} -j \"#{@pdf_file}\" ./tmp/`
     last_page_original_path = (Dir.glob('./tmp/*.jpg') - [cover_path]).first
+    return false unless last_page_original_path
     last_page_path = "./tmp/#{Time.now.to_i}_last_page.jpg"
     FileUtils.mv(last_page_original_path, last_page_path)
 
@@ -57,7 +58,7 @@ class GenerateTitleAndAuthor
   def extract_author_and_title(cover_texts, last_page_texts)
     json = { input_path: @pdf_file, cover_texts: , last_page_texts:  }.to_json
     prompt = <<~EOS
-      下記のJSONファイルはカバーページと最終ページのOCRの結果です。中には不要なスペースが混じっています。また順序が入れ替わっているかもしれません。
+      下記のJSONファイルはPDFのファイル名と、カバーページと最終ページのOCRの結果です。中には不要なスペースが混じっています。
       このJSONから著者名と本のタイトルを、不要なスペースを除いた上で、日本語名を優先して生成し、
       1行目に著者名を、2行目にタイトルのみを入れて返してください。
       もし著者名やタイトルがわからなかった場合は「不明」と返してください。
@@ -83,7 +84,7 @@ class GenerateTitleAndAuthor
   end
 end
 
-pdfs = Dir.glob('../02_isbn/no_isbn_no_title/**/*.pdf')
+pdfs = Dir.glob('../02_isbn/no_isbn_no_title/**/*.pdf').sort.reverse
 pdfs.each.with_index do |pdf_file, index|
   puts "processing #{pdf_file}, #{index + 1} of #{pdfs.size}"
   GenerateTitleAndAuthor.new(pdf_file).process

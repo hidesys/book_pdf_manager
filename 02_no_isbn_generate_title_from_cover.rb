@@ -55,12 +55,12 @@ class GenerateTitleAndAuthor
   end
 
   def extract_author_and_title(cover_texts, last_page_texts)
-    json = { cover_texts: , last_page_texts:  }.to_json
+    json = { input_path: @pdf_file, cover_texts: , last_page_texts:  }.to_json
     prompt = <<~EOS
       下記のJSONファイルはカバーページと最終ページのOCRの結果です。中には不要なスペースが混じっています。また順序が入れ替わっているかもしれません。
       このJSONから著者名と本のタイトルを、不要なスペースを除いた上で、日本語名を優先して生成し、
       1行目に著者名を、2行目にタイトルのみを入れて返してください。
-      もし著者名やタイトルがわからなかった場合は「不明」とだけ返してください。
+      もし著者名やタイトルがわからなかった場合は「不明」と返してください。
 
       --
       #{json}

@@ -66,7 +66,9 @@ class GenerateTitleAndAuthor
       #{json}
     EOS
     result = OpenAI.query(prompt[0..1024])
-    result.split("\n").map(&:strip)
+    result.split("\n").map do |line|
+      line.gsub('/', '_').strip
+    end
   rescue => e
     puts e
   end

@@ -62,7 +62,7 @@ class PdfProcessor
       'isbn13' => isbn13,
       'magazine_code' => magazine_code,
       'original_file_path' => original_file_path,
-      'tags' => (tag ? [tag] : []),
+      'tag' => tag,
       'original_file_name' => original_file_name,
       'author' => author,
       'translater' => translater,
@@ -94,8 +94,8 @@ end
 
 puts 'Start.'
 file_list = Dir.glob(INPUT_GLOB)
-file_list.each.with_index do |_input_path, file_index|
-  puts "Process (#{file_index + 1}/#{file_list.length}): #{@input_path}"
-  PdfProcessor.new(@input_path).process
+file_list.each.with_index do |input_path, file_index|
+  puts "Process (#{file_index + 1}/#{file_list.length}): #{input_path}"
+  PdfProcessor.new(input_path).process
 end
 puts 'Finish.'

@@ -16,7 +16,7 @@ Dir.glob('../original/**/*.pdf').shuffle.each do |pdf_path|
   pdf_yml = nil
   if File.exist?(pdf_yml_path)
     pdf_yml = YAML.load_file(pdf_yml_path)
-    ln_tags = pdf_yml['tags']
+    ln_tags << pdf_yml['tag']
   end
   if pdf_yml && pdf_yml['title'] && pdf_yml['authors'] && !pdf_yml['authors'].empty?
     ln_name = "[#{pdf_yml['authors'].join(',')}#{pdf_yml['translator'] ? "（#{pdf_yml['translator']}）" : nil}]#{pdf_yml['title']}"

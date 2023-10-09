@@ -1,6 +1,7 @@
 # A sample Gemfile
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
-gem "amazon-ecs"
-gem "activesupport"
+gem 'activesupport'
+gem 'amazon-ecs'
 gem 'dotenv'
+gem 'rubocop', require: false
